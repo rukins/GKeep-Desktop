@@ -1,0 +1,1 @@
+# GKeep Desktop. Unofficial desktop client for Google Keep Notes
