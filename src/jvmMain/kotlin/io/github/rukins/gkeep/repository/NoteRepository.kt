@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class NoteRepository : BasicRepository<AbstractNode> {
+object NoteRepository : BasicRepository<AbstractNode> {
     override val storageFilePath: Path = Path.of("$STORAGE_FOLDER_PATH/nodes.json")
 
     override fun getAll(): List<AbstractNode> {

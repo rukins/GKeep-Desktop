@@ -12,7 +12,6 @@ import androidx.compose.ui.window.application
 import io.github.rukins.gkeep.repository.LabelRepository
 import io.github.rukins.gkeep.repository.NoteRepository
 import io.github.rukins.gkeep.repository.SettingsRepository
-import io.github.rukins.gkeep.service.GKeepService
 import io.github.rukins.gkeep.ui.MainMenu
 import io.github.rukins.gkeep.ui.page.GreetingPage
 import io.github.rukins.gkeep.viewmodel.AppViewModel
@@ -36,17 +35,7 @@ fun main() = application {
 
     val scope = rememberCoroutineScope()
 
-    val settingsRepository = SettingsRepository()
-    val noteRepository = NoteRepository()
-    val labelRepository = LabelRepository()
-
-    val settings = settingsRepository.get()
-
-    val gKeepService = GKeepService(settings.masterToken, settings.currentVersion)
-
-    val viewModel = remember {
-        AppViewModel(settingsRepository.get(), gKeepService.getAllNodesFromStorageFile())
-    }
+    val viewModel = remember { AppViewModel() }
 
 //    val icon = BitmapPainter(useResource("logo/logo.png", ::loadImageBitmap))
     Window(
@@ -89,10 +78,10 @@ fun main() = application {
             }
         })
 
-        if (!settingsRepository.fileExists() || !noteRepository.fileExists() || !labelRepository.fileExists()) {
-            settingsRepository.createFile()
-            noteRepository.createFile()
-            labelRepository.createFile()
+        if (!SettingsRepository.fileExists() || !NoteRepository.fileExists() || !LabelRepository.fileExists()) {
+            SettingsRepository.createFile()
+            NoteRepository.createFile()
+            LabelRepository.createFile()
 
             GreetingPage(viewModel)
         } else {

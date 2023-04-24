@@ -2,8 +2,8 @@ package io.github.rukins.gkeep.viewmodel
 
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
-import io.github.rukins.gkeep.objects.Settings
 import io.github.rukins.gkeep.objects.mutable.*
+import io.github.rukins.gkeep.repository.SettingsRepository
 import io.github.rukins.gkeep.service.GKeepService
 import io.github.rukins.gkeep.ui.NavigationElement
 import io.github.rukins.gkeepapi.model.gkeep.node.NodeType
@@ -13,16 +13,14 @@ import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.NoteNode
 import io.github.rukins.gkeepapi.utils.NodeUtils
 import java.net.URL
 
-class AppViewModel(
-    settings: Settings, notes: List<AbstractNode>, unsyncNotes: List<AbstractNode> = listOf()
-) {
-    val gKeepService = GKeepService(settings.masterToken, settings.currentVersion)
+class AppViewModel {
+    var settings: MutableSettings = MutableSettings(SettingsRepository.get())
 
-    var settings = MutableSettings(settings)
+    private val gKeepService: GKeepService = GKeepService(settings.masterToken, settings.currentVersion)
 
-    var notes = getMutableMapOfIdAndMutableNode(notes)
+    var notes = mutableMapOf<String, MutableAbstractNode?>()
 
-    var unsyncNotes = getMutableMapOfIdAndMutableNode(unsyncNotes)
+    var unsyncNotes = mutableMapOf<String, MutableAbstractNode?>()
 
     var currentEditableNote: MutableAbstractNode = MutableNoteNode(gKeepService.newDefaultNoteNode())
 

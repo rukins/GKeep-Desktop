@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class SettingsRepository : BasicRepository<Settings> {
+object SettingsRepository : BasicRepository<Settings> {
     override val storageFilePath: Path = Path.of("${BasicRepository.STORAGE_FOLDER_PATH}/settings.json")
 
     override fun get(): Settings {
