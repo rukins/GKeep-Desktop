@@ -149,11 +149,21 @@ class AppViewModel {
 
     fun onCloseApp() {
 //        settings.currentVersion = gKeepService.getCurrentVersion()
-//        SettingsRepository().save(settings.toSettings())
+//        SettingsRepository.save(settings.toSettings())
+//
+//        gKeepService.saveUserDataToStorageFile(
+//            UserData(
+//                notes.values.map { it?.toNode()!! },
+//                unsyncNotes.values.map { it?.toNode()!! }
+//            )
+//        )
     }
 
-    fun loadDataFromStorageFiles() {
-        notes = getMutableMapOfIdAndMutableNode(gKeepService.getAllNodesFromStorageFile())
+    fun loadUserDataFromStorageFiles() {
+        val userData = gKeepService.getUserDataFromStorageFile()
+
+        notes = getMutableMapOfIdAndMutableNode(NodeUtils.getAssembledAbstractNodeList(userData.nodes))
+        unsyncNotes = getMutableMapOfIdAndMutableNode(NodeUtils.getAssembledAbstractNodeList(userData.unsyncNodes))
     }
 
     private fun isInternetConnectionAvailable(): Boolean {

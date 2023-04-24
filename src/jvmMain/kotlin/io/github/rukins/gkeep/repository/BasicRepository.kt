@@ -10,7 +10,15 @@ interface BasicRepository<T> {
     val storageFilePath: Path
 
     companion object {
-        val gson: Gson = GsonConfig.gson()
+        private val gson: Gson = GsonConfig.gson()
+
+        fun toJson(obj: Any): String {
+            return gson.toJson(obj)
+        }
+
+        fun <T> fromJson(json: String, classOfT: Class<T>): T {
+            return gson.fromJson(json, classOfT)
+        }
 
         val STORAGE_FOLDER_PATH = getRootPath() + "/.gkeep"
 
@@ -26,15 +34,7 @@ interface BasicRepository<T> {
         }
     }
 
-    fun getAll(): List<T> {
-        throw NotImplementedError()
-    }
-
     fun get(): T {
-        throw NotImplementedError()
-    }
-
-    fun saveAll(list: List<T>) {
         throw NotImplementedError()
     }
 

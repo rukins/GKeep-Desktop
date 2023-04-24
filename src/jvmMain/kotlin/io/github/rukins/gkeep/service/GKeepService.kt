@@ -1,6 +1,7 @@
 package io.github.rukins.gkeep.service
 
-import io.github.rukins.gkeep.repository.NoteRepository
+import io.github.rukins.gkeep.objects.UserData
+import io.github.rukins.gkeep.repository.UserDataRepository
 import io.github.rukins.gkeepapi.GKeepAPI
 import io.github.rukins.gkeepapi.NodeRequestBuilder
 import io.github.rukins.gkeepapi.model.gkeep.NodeResponse
@@ -22,12 +23,14 @@ class GKeepService(masterToken: String, currentVersion: String) {
 
     private val nodeRequestBuilder = NodeRequestBuilder.builder()
 
-    fun getAllNodesFromStorageFile(): List<AbstractNode> {
-        return NodeUtils.getAssembledAbstractNodeList(NoteRepository.getAll())
+    fun getUserDataFromStorageFile(): UserData {
+        return UserDataRepository.get()
     }
 
-    fun saveAllNotes(notes: List<AbstractNode>) {
-        NoteRepository.saveAll(notes)
+    fun saveUserDataToStorageFile(userData: UserData) {
+        userData.nodes = NodeUtils.getAbstractNodeListFromAssembled(userData.nodes)
+        userData.unsyncNodes = NodeUtils.getAbstractNodeListFromAssembled(userData.unsyncNodes)
+        UserDataRepository.save(userData)
     }
 
     fun createOrUpdateNoteNode(noteNode: NoteNode): NoteNode {

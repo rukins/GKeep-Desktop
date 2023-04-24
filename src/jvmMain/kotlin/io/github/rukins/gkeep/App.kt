@@ -9,9 +9,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import io.github.rukins.gkeep.repository.LabelRepository
-import io.github.rukins.gkeep.repository.NoteRepository
 import io.github.rukins.gkeep.repository.SettingsRepository
+import io.github.rukins.gkeep.repository.UserDataRepository
 import io.github.rukins.gkeep.ui.MainMenu
 import io.github.rukins.gkeep.ui.page.GreetingPage
 import io.github.rukins.gkeep.viewmodel.AppViewModel
@@ -78,14 +77,13 @@ fun main() = application {
             }
         })
 
-        if (!SettingsRepository.fileExists() || !NoteRepository.fileExists() || !LabelRepository.fileExists()) {
+        if (!SettingsRepository.fileExists() || !UserDataRepository.fileExists()) {
             SettingsRepository.createFile()
-            NoteRepository.createFile()
-            LabelRepository.createFile()
+            UserDataRepository.createFile()
 
             GreetingPage(viewModel)
         } else {
-            viewModel.loadDataFromStorageFiles()
+            viewModel.loadUserDataFromStorageFiles()
 
             MainMenu(viewModel)
         }
