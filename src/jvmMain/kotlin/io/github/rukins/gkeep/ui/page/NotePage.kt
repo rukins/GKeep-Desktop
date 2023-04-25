@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.font.FontWeight
@@ -170,17 +171,30 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
             )
         }
 
-        val uncheckedListItems = list.listItemNodes.filter { !it.checked.value }.toList()
+        list.listItemNodes.sortedByDescending { it.sortValue.value }.sortedBy { it.checked.value }
+
+        val uncheckedListItems = list.listItemNodes
+            .filter { !it.checked.value }
+            .sortedByDescending { it.sortValue.value }
+            .sortedBy { it.checked.value }
+            .toList()
+
         val checkedListItemsCount = list.listItemNodes.size - uncheckedListItems.size
 
-        // TODO - displaying list items of LIST
-        uncheckedListItems.forEach {n ->
+        uncheckedListItems.forEach { n ->
             SelectionContainer {
                 Text(
                     n.text.value,
                     modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp)
                 )
             }
+        }
+
+        if (checkedListItemsCount != 0) {
+            Text(
+                "+ $checkedListItemsCount checked item" + if (checkedListItemsCount > 1) "s" else "",
+                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp).alpha(0.7f)
+            )
         }
 
         if (viewModel.showNoteActions.value && list.id == viewModel.currentEditableNote.id) {
