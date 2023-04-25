@@ -37,8 +37,8 @@ compose.desktop {
     application {
         mainClass = "io.github.rukins.gkeep.AppKt"
         nativeDistributions {
-            packageName = "GKeep"
-            packageVersion = "1.0.0"
+            packageName = name
+            packageVersion = version.toString()
 
             targetFormats(
                 TargetFormat.Deb, TargetFormat.Rpm,
