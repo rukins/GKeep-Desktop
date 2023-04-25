@@ -9,6 +9,10 @@ object UserDataRepository : BasicRepository<UserData> {
     override val storageFilePath: Path = Path.of("${BasicRepository.STORAGE_FOLDER_PATH}/userData.json")
 
     override fun get(): UserData {
+        if (!fileExists()) {
+            return UserData()
+        }
+
         val fileData = String(Files.readAllBytes(storageFilePath), StandardCharsets.UTF_8).ifEmpty { null }
 
         return if (fileData == null) UserData() else BasicRepository.fromJson(fileData, UserData::class.java)
