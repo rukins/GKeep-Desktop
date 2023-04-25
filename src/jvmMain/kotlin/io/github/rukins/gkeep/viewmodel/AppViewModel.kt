@@ -38,7 +38,10 @@ class AppViewModel {
 
     val isUserLoggedIn = mutableStateOf(true)
 
+    val showProgressIndicatorOnRefresh = mutableStateOf(false)
+
     fun onRefresh() {
+        showProgressIndicatorOnRefresh.value = true
         synchronized(this) {
             val nodeResponse = gKeepService.syncDataWithServer()
 
@@ -65,6 +68,7 @@ class AppViewModel {
                 }
             }
         }
+        showProgressIndicatorOnRefresh.value = false
     }
 
     fun onCreateOrUpdateNote() {

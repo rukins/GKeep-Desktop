@@ -57,7 +57,6 @@ fun MainMenu(viewModel: AppViewModel) {
                             scope.launch(Dispatchers.IO) { viewModel.onRefresh() }
                         }
                     ) {
-//                        CircularProgressIndicator()
                         Icon(Icons.Outlined.Refresh, "Refresh")
                     }
                     IconButton(
@@ -87,6 +86,10 @@ fun MainMenu(viewModel: AppViewModel) {
                 NavigationElement.ARCHIVE,
                 NavigationElement.TRASH -> NotePage(viewModel)
                 NavigationElement.LABELS -> {}
+            }
+
+            if (viewModel.showProgressIndicatorOnRefresh.value) {
+                CircularProgressIndicator(Modifier.absoluteOffset(75.dp, 10.dp))
             }
 
             if (viewModel.showNavigationBar.value) {
