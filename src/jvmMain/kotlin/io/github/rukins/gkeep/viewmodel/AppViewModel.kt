@@ -2,6 +2,7 @@ package io.github.rukins.gkeep.viewmodel
 
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import io.github.rukins.gkeep.objects.mutable.*
 import io.github.rukins.gkeep.repository.SettingsRepository
 import io.github.rukins.gkeep.service.GKeepService
@@ -19,9 +20,9 @@ class AppViewModel {
 
     private val gKeepService: GKeepService = GKeepService(settings.masterToken, settings.currentVersion)
 
-    var notes = mutableMapOf<String, MutableAbstractNode?>()
+    var notes = mutableStateMapOf<String, MutableAbstractNode?>()
 
-    var unsyncNotes = mutableMapOf<String, MutableAbstractNode?>()
+    var unsyncNotes = mutableStateMapOf<String, MutableAbstractNode?>()
 
     var currentEditableNote: MutableAbstractNode = MutableNoteNode(gKeepService.newDefaultNoteNode())
 
@@ -213,7 +214,7 @@ class AppViewModel {
         showNoteActions.value = false
     }
 
-    private fun getMutableMapOfIdAndMutableNode(notes: List<AbstractNode>): MutableMap<String, MutableAbstractNode?> {
+    private fun getMutableMapOfIdAndMutableNode(notes: List<AbstractNode>): SnapshotStateMap<String, MutableAbstractNode?> {
         return mutableStateMapOf(
             *notes
                 .map {
