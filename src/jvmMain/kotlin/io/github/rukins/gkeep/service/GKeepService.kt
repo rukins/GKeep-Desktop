@@ -12,10 +12,14 @@ import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.ListNode
 import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.NoteNode
 import io.github.rukins.gkeepapi.utils.IdUtils
 import io.github.rukins.gkeepapi.utils.NodeUtils
+import io.github.rukins.gpsoauth.Auth
+import io.github.rukins.gpsoauth.model.AccessTokenRequestParams
+import io.github.rukins.gpsoauth.model.MasterTokenRequestParams
 import java.time.LocalDateTime
 
+
 class GKeepService(masterToken: String, currentVersion: String) {
-    private val gkeepAPI: GKeepAPI
+    private var gkeepAPI: GKeepAPI
 
     init {
         gkeepAPI = GKeepAPI(masterToken, currentVersion)
@@ -148,5 +152,38 @@ class GKeepService(masterToken: String, currentVersion: String) {
             .superListItemId("")
             .superListItemServerId("")
             .build()
+    }
+
+    fun updateMasterToken(masterToken: String, authenticationToken: String) {
+        gkeepAPI =
+            if (authenticationToken.isNotEmpty()) {
+                GKeepAPI(getMasterToken(authenticationToken))
+            } else {
+                // check if master token is correct
+                getAccessToken(masterToken)
+
+                GKeepAPI(masterToken)
+            }
+    }
+
+    private fun getMasterToken(authenticationToken: String): String {
+        val masterTokenRequestParams = MasterTokenRequestParams
+            .withDefaultValues()
+            .token(authenticationToken)
+            .build()
+
+        return Auth().getMasterToken(masterTokenRequestParams).masterToken
+    }
+
+    // only for checking if master token is correct. remove later
+    private fun getAccessToken(masterToken: String): String {
+        val accessTokenRequestParams = AccessTokenRequestParams
+            .withDefaultValues()
+            .masterToken(masterToken)
+            .app("com.google.android.keep")
+            .scopes("oauth2:https://www.googleapis.com/auth/memento https://www.googleapis.com/auth/reminders")
+            .build()
+
+        return Auth().getAccessToken(accessTokenRequestParams).accessToken
     }
 }

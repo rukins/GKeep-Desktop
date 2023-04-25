@@ -1,5 +1,6 @@
 package io.github.rukins.gkeep
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -78,14 +79,18 @@ fun main() = application {
         })
 
         if (!SettingsRepository.fileExists() || !UserDataRepository.fileExists()) {
-            SettingsRepository.createFile()
-            UserDataRepository.createFile()
-
-            GreetingPage(viewModel)
-        } else {
-            viewModel.loadUserDataFromStorageFiles()
-
-            MainMenu(viewModel)
+            viewModel.isUserLoggedIn.value = false
         }
+
+        App(viewModel)
+    }
+}
+
+@Composable
+private fun App(viewModel: AppViewModel) {
+    if (viewModel.isUserLoggedIn.value) {
+        MainMenu(viewModel)
+    } else {
+        GreetingPage(viewModel)
     }
 }

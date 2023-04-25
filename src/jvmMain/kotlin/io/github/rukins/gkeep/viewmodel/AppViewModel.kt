@@ -11,6 +11,7 @@ import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.AbstractNode
 import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.ListNode
 import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.NoteNode
 import io.github.rukins.gkeepapi.utils.NodeUtils
+import io.github.rukins.gpsoauth.exception.AuthError
 import java.net.URL
 
 class AppViewModel {
@@ -33,6 +34,8 @@ class AppViewModel {
     val showNoteEditingBox = mutableStateOf(false)
 
     val showNoteActions = mutableStateOf(false)
+
+    val isUserLoggedIn = mutableStateOf(true)
 
     fun onRefresh() {
         synchronized(this) {
@@ -157,6 +160,12 @@ class AppViewModel {
 //                unsyncNotes.values.map { it?.toNode()!! }
 //            )
 //        )
+    }
+
+    @Throws(AuthError::class)
+    fun onConfirmLogin(masterToken: String, authenticationToken: String) {
+        gKeepService.updateMasterToken(masterToken, authenticationToken)
+        isUserLoggedIn.value = true
     }
 
     fun loadUserDataFromStorageFiles() {
