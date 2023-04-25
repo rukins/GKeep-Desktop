@@ -182,5 +182,9 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
                 )
             }
         }
+
+        if (viewModel.showNoteActions.value && list.id == viewModel.currentEditableNote.id) {
+            NoteActions(Modifier.align(Alignment.CenterHorizontally), viewModel)
+        }
     }
 }
