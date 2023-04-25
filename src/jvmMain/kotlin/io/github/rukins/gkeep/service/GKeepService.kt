@@ -50,9 +50,9 @@ class GKeepService(masterToken: String, currentVersion: String) {
 
     fun archiveOrUnarchiveNoteNode(node: NoteNode): NoteNode {
         if (node.archived) {
-            return nodeRequestBuilder.archiveNoteNode(node)
+            return nodeRequestBuilder.unarchiveNoteNode(node)
         }
-        return nodeRequestBuilder.unarchiveNoteNode(node)
+        return nodeRequestBuilder.archiveNoteNode(node)
     }
 
     fun createOrUpdateListNode(listNode: ListNode): ListNode {
@@ -68,9 +68,9 @@ class GKeepService(masterToken: String, currentVersion: String) {
 
     fun archiveOrUnarchiveListNode(node: ListNode): ListNode {
         if (node.archived) {
-            return nodeRequestBuilder.archiveListNode(node)
+            return nodeRequestBuilder.unarchiveListNode(node)
         }
-        return nodeRequestBuilder.unarchiveListNode(node)
+        return nodeRequestBuilder.archiveListNode(node)
     }
 
     fun addListItemNodeToListNode(listNode: ListNode, listItemNode: ListItemNode): ListItemNode {
