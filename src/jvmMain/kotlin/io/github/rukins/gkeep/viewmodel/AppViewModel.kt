@@ -86,9 +86,15 @@ class AppViewModel {
         )
     }
 
-    fun onTrashNote() {
+    fun onTrashOrRestoreNote() {
         hideNoteEditingBoxAndNoteActions()
-        saveNote(gKeepService.trashNode(currentEditableNote.toNode()))
+        saveNote(
+            if (MutableAbstractNode.isNoteTrashed(currentEditableNote)) {
+                gKeepService.restoreNode(currentEditableNote.toNode())
+            } else {
+                gKeepService.trashNode(currentEditableNote.toNode())
+            }
+        )
     }
 
     fun onPinOrUnpinNote() {

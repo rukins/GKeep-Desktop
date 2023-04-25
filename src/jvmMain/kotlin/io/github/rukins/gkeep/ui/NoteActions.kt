@@ -66,7 +66,7 @@ fun NoteActions(modifier: Modifier, viewModel: AppViewModel) {
             if (MutableAbstractNode.isNoteTrashed(viewModel.currentEditableNote)) Icons.Outlined.Restore else Icons.Outlined.Delete,
             if (MutableAbstractNode.isNoteTrashed(viewModel.currentEditableNote)) "Restore" else "Move to Trash"
         ) {
-            scope.launch(Dispatchers.IO) { viewModel.onTrashNote() }
+            scope.launch(Dispatchers.IO) { viewModel.onTrashOrRestoreNote() }
         }
         NoteActionIconButton(backgroundModifier, Icons.Outlined.CheckBox, "CheckBox") {
 
