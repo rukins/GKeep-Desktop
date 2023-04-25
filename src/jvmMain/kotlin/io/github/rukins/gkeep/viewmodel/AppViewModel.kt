@@ -3,6 +3,7 @@ package io.github.rukins.gkeep.viewmodel
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import io.github.rukins.gkeep.objects.UserData
 import io.github.rukins.gkeep.objects.mutable.*
 import io.github.rukins.gkeep.repository.SettingsRepository
 import io.github.rukins.gkeep.service.GKeepService
@@ -162,15 +163,17 @@ class AppViewModel {
     }
 
     fun onCloseApp() {
-//        settings.currentVersion = gKeepService.getCurrentVersion()
-//        SettingsRepository.save(settings.toSettings())
-//
-//        gKeepService.saveUserDataToStorageFile(
-//            UserData(
-//                notes.values.map { it?.toNode()!! },
-//                unsyncNotes.values.map { it?.toNode()!! }
-//            )
-//        )
+        onRefresh()
+
+        settings.currentVersion = gKeepService.getCurrentVersion()
+        SettingsRepository.save(settings.toSettings())
+
+        gKeepService.saveUserDataToStorageFile(
+            UserData(
+                notes.values.map { it?.toNode()!! },
+                unsyncNotes.values.map { it?.toNode()!! }
+            )
+        )
     }
 
     @Throws(AuthError::class)

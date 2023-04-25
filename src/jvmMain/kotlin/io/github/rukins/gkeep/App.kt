@@ -80,6 +80,8 @@ fun main() = application {
 
         if (!SettingsRepository.fileExists() || !UserDataRepository.fileExists()) {
             viewModel.isUserLoggedIn.value = false
+        } else {
+            viewModel.loadUserDataFromStorageFiles()
         }
 
         App(viewModel)
