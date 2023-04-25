@@ -9,9 +9,13 @@ object SettingsRepository : BasicRepository<Settings> {
     override val storageFilePath: Path = Path.of("${BasicRepository.STORAGE_FOLDER_PATH}/settings.json")
 
     override fun get(): Settings {
-        val fileData = String(Files.readAllBytes(storageFilePath), StandardCharsets.UTF_8).ifEmpty { "{}" }
+        if (!fileExists()) {
+            return Settings()
+        }
 
-        return BasicRepository.fromJson(fileData, Settings::class.java)
+        val fileData = String(Files.readAllBytes(storageFilePath), StandardCharsets.UTF_8).ifEmpty { null }
+
+        return if (fileData == null) Settings() else BasicRepository.fromJson(fileData, Settings::class.java)
     }
 
     override fun save(obj: Settings) {
