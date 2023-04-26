@@ -129,9 +129,11 @@ fun NoteCard(note: MutableNoteNode, viewModel: AppViewModel, scope: CoroutineSco
                 fontWeight = FontWeight.Bold
             )
         }
+
+        val text = note.listItemNode.text.value
         SelectionContainer {
             Text(
-                note.listItemNode.text.value,
+                if (text.length < 200) text else text.substring(0, 200) + "\n...",
                 modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp)
             )
         }
