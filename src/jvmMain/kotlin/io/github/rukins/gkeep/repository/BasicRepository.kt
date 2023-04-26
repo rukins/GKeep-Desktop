@@ -20,6 +20,10 @@ interface BasicRepository<T> {
             return gson.fromJson(json, classOfT)
         }
 
+        fun createStorageFolder() {
+            Files.createDirectory(Path.of(STORAGE_FOLDER_PATH))
+        }
+
         val STORAGE_FOLDER_PATH = getRootPath() + "/.gkeep"
 
         private fun getRootPath(): String {
