@@ -154,16 +154,20 @@ class GKeepService(masterToken: String, currentVersion: String) {
             .build()
     }
 
-    fun updateMasterToken(masterToken: String, authenticationToken: String) {
-        gkeepAPI =
+    fun updateMasterToken(masterToken: String, authenticationToken: String): String {
+        val correctMasterToken =
             if (authenticationToken.isNotEmpty()) {
-                GKeepAPI(getMasterToken(authenticationToken))
+                getMasterToken(authenticationToken)
             } else {
                 // check if master token is correct
                 getAccessToken(masterToken)
 
-                GKeepAPI(masterToken)
+                masterToken
             }
+
+        gkeepAPI = GKeepAPI(correctMasterToken)
+
+        return correctMasterToken
     }
 
     private fun getMasterToken(authenticationToken: String): String {

@@ -180,7 +180,7 @@ class AppViewModel {
 
     @Throws(AuthError::class)
     fun onConfirmLogin(masterToken: String, authenticationToken: String) {
-        gKeepService.updateMasterToken(masterToken, authenticationToken)
+        settings.masterToken = gKeepService.updateMasterToken(masterToken, authenticationToken)
         isUserLoggedIn.value = true
 
         BasicRepository.createStorageFolder()

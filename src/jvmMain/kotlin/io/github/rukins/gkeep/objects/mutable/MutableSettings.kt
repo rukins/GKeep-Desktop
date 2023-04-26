@@ -6,7 +6,7 @@ import io.github.rukins.gkeep.objects.Settings
 class MutableSettings(settings: Settings) {
     val email = mutableStateOf(settings.email)
     var currentVersion = settings.currentVersion
-    val masterToken = settings.masterToken
+    var masterToken = settings.masterToken
     val themeOrdinal = mutableStateOf(settings.themeOrdinal)
     val enableDarkMode = mutableStateOf(settings.enableDarkMode)
 
