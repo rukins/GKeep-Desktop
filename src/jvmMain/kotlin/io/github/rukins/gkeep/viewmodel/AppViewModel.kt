@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import io.github.rukins.gkeep.objects.UserData
 import io.github.rukins.gkeep.objects.mutable.*
+import io.github.rukins.gkeep.repository.BasicRepository
 import io.github.rukins.gkeep.repository.SettingsRepository
+import io.github.rukins.gkeep.repository.UserDataRepository
 import io.github.rukins.gkeep.service.GKeepService
 import io.github.rukins.gkeep.ui.NavigationElement
 import io.github.rukins.gkeepapi.model.gkeep.node.NodeType
@@ -180,6 +182,10 @@ class AppViewModel {
     fun onConfirmLogin(masterToken: String, authenticationToken: String) {
         gKeepService.updateMasterToken(masterToken, authenticationToken)
         isUserLoggedIn.value = true
+
+        BasicRepository.createStorageFolder()
+        SettingsRepository.createFile()
+        UserDataRepository.createFile()
     }
 
     fun loadUserDataFromStorageFiles() {
