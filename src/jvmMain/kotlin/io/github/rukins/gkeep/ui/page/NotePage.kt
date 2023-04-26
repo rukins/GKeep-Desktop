@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -122,21 +121,17 @@ fun NoteCard(note: MutableNoteNode, viewModel: AppViewModel, scope: CoroutineSco
             MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        SelectionContainer {
-            Text(
-                note.title.value,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Text(
+            note.title.value,
+            modifier = Modifier.padding(10.dp),
+            fontWeight = FontWeight.Bold
+        )
 
         val text = note.listItemNode.text.value
-        SelectionContainer {
-            Text(
-                if (text.length < 200) text else text.substring(0, 200) + "\n...",
-                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp)
-            )
-        }
+        Text(
+            if (text.length < 200) text else text.substring(0, 200) + "\n...",
+            modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp)
+        )
 
         if (viewModel.showNoteActions.value && note.id == viewModel.currentEditableNote.id) {
             NoteActions(Modifier.align(Alignment.CenterHorizontally), viewModel)
@@ -165,13 +160,11 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
             MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        SelectionContainer {
-            Text(
-                list.title.value,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Text(
+            list.title.value,
+            modifier = Modifier.padding(10.dp),
+            fontWeight = FontWeight.Bold
+        )
 
         list.listItemNodes.sortedByDescending { it.sortValue.value }.sortedBy { it.checked.value }
 
@@ -184,12 +177,10 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
         val checkedListItemsCount = list.listItemNodes.size - uncheckedListItems.size
 
         uncheckedListItems.forEach { n ->
-            SelectionContainer {
-                Text(
-                    n.text.value,
-                    modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp)
-                )
-            }
+            Text(
+                n.text.value,
+                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp)
+            )
         }
 
         if (checkedListItemsCount != 0) {
