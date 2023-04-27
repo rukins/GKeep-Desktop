@@ -1,7 +1,5 @@
 # GKeep Desktop. Unofficial desktop client for Google Keep Notes
 
-![Logo](./src/jvmMain/resources/logo/logo.png)
-
 ## Table of content
 - [General info](#general-info)
 - [Build](#build)
@@ -15,6 +13,8 @@ and has beautiful Material3 Design by Google from Android. \
 The app uses [this library](https://github.com/rukins/gkeepapi-java) to get access data from the Android Google Keep API and [this one](https://github.com/rukins/gpsoauth-java) to log in to Google account,
 so you need receive an **authentication token** to get started with your Google account. \
 The guide available on [this page](https://github.com/rukins/gpsoauth-java) will help you.
+
+![Logo](./src/jvmMain/resources/logo/logo.png)
 
 ## Build
 You can build the application for Linux, Windows or macOS just by one command, 
@@ -49,6 +49,13 @@ Windows: exe, msi
 ```
 
 The installation files will be available in `build/compose/binaries/main` folder.
+
+**Build jar for current OS** *(you can run it in the console just by `java -jar app.jar`)*
+```
+./gradlew packageUberJarForCurrentOS OR ./gradlew.bat packageUberJarForCurrentOS
+```
+
+The jar file will be available in `build/compose/jars` folder.
 
 **For more information see [Packaging Overview From Oracle Docs](https://docs.oracle.com/en/java/javase/17/jpackage/packaging-overview.html)
 and [Building a native distribution Guide](https://github.com/JetBrains/compose-multiplatform/tree/master/tutorials/Native_distributions_and_local_execution)**
