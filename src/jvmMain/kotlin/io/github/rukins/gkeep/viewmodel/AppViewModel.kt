@@ -9,6 +9,7 @@ import io.github.rukins.gkeep.repository.BasicRepository
 import io.github.rukins.gkeep.repository.SettingsRepository
 import io.github.rukins.gkeep.repository.UserDataRepository
 import io.github.rukins.gkeep.service.GKeepService
+import io.github.rukins.gkeep.ui.AppStatus
 import io.github.rukins.gkeep.ui.NavigationElement
 import io.github.rukins.gkeepapi.model.gkeep.node.NodeType
 import io.github.rukins.gkeepapi.model.gkeep.node.nodeobject.AbstractNode
@@ -41,11 +42,17 @@ class AppViewModel {
 
     val isUserLoggedIn = mutableStateOf(true)
 
-    val showProgressIndicatorOnRefresh = mutableStateOf(false)
+    val appStatus = mutableStateOf(AppStatus.UNSPECIFIED)
 
     fun onRefresh() {
-        showProgressIndicatorOnRefresh.value = true
         synchronized(this) {
+            if (!isInternetConnectionAvailable()) {
+                appStatus.value = AppStatus.NO_INTERNET_CONNECTION
+                return
+            }
+
+            appStatus.value = AppStatus.REFRESHING
+
             val nodeResponse = gKeepService.syncDataWithServer()
 
             val notesFromServer = NodeUtils.mergeListsOfAbstractNodes(
@@ -70,8 +77,9 @@ class AppViewModel {
                     else -> {}
                 }
             }
+
+            appStatus.value = AppStatus.UNSPECIFIED
         }
-        showProgressIndicatorOnRefresh.value = false
     }
 
     fun onCreateOrUpdateNote() {

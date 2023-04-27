@@ -88,8 +88,15 @@ fun MainMenu(viewModel: AppViewModel) {
                 NavigationElement.LABELS -> {}
             }
 
-            if (viewModel.showProgressIndicatorOnRefresh.value) {
-                CircularProgressIndicator(Modifier.absoluteOffset(75.dp, 10.dp))
+            when (viewModel.appStatus.value) {
+                AppStatus.REFRESHING ->
+                    CircularProgressIndicator(Modifier.absoluteOffset(75.dp, 10.dp))
+                AppStatus.NO_INTERNET_CONNECTION ->
+                    Icon(Icons.Outlined.WifiOff, "WifiOff",
+                        Modifier.absoluteOffset(75.dp, 15.dp),
+                        MaterialTheme.colorScheme.outline
+                    )
+                AppStatus.UNSPECIFIED -> {}
             }
 
             if (viewModel.showNavigationBar.value) {
