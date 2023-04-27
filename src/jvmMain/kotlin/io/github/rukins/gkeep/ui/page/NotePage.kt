@@ -121,16 +121,18 @@ fun NoteCard(note: MutableNoteNode, viewModel: AppViewModel, scope: CoroutineSco
             MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        Text(
-            note.title.value,
-            modifier = Modifier.padding(10.dp),
-            fontWeight = FontWeight.Bold
-        )
+        if (note.title.value.isNotEmpty()) {
+            Text(
+                note.title.value,
+                modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 0.dp),
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         val text = note.listItemNode.text.value
         Text(
             if (text.length < 200) text else text.substring(0, 200) + "\n...",
-            modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp)
+            modifier = Modifier.padding(10.dp)
         )
 
         if (viewModel.showNoteActions.value && note.id == viewModel.currentEditableNote.id) {
@@ -160,11 +162,14 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
             MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        Text(
-            list.title.value,
-            modifier = Modifier.padding(10.dp),
-            fontWeight = FontWeight.Bold
-        )
+
+        if (list.title.value.isNotEmpty()) {
+            Text(
+                list.title.value,
+                modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 0.dp),
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         list.listItemNodes.sortedByDescending { it.sortValue.value }.sortedBy { it.checked.value }
 
@@ -179,14 +184,14 @@ fun ListCard(list: MutableListNode, viewModel: AppViewModel, scope: CoroutineSco
         uncheckedListItems.forEach { n ->
             Text(
                 n.text.value,
-                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp)
+                modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp)
             )
         }
 
         if (checkedListItemsCount != 0) {
             Text(
                 "+ $checkedListItemsCount checked item" + if (checkedListItemsCount > 1) "s" else "",
-                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 5.dp).alpha(0.7f)
+                modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp).alpha(0.7f)
             )
         }
 
